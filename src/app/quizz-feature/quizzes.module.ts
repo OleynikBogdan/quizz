@@ -20,16 +20,30 @@ import { reducers } from '../quizz-data-access/quizz.reducers';
 import { QuizzEffects } from '../quizz-data-access/quizz.effects';
 import { QuizzService } from '../quizz-data-access/quizz.service';
 import { QuizzFacade } from '../quizz-data-access/quizz.facade';
+import { QuizzComponent } from './quizz/quizz.component';
+import { QuizzResolver } from './quizz/quizz.resolver';
+import { QuizzResultComponent } from './quizz-result/quizz-result.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     component: QuizzesComponent,
+  },
+  {
+    path: 'play/:id',
+    component: QuizzComponent,
+    resolve: {
+      quizz: QuizzResolver,
+    },
+  },
+  {
+    path: 'result',
+    component: QuizzResultComponent,
   },
 ];
 
 @NgModule({
-  declarations: [QuizzesComponent],
+  declarations: [QuizzesComponent, QuizzComponent, QuizzResultComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -44,6 +58,6 @@ const routes: Routes = [
     FormsModule,
   ],
   exports: [QuizzesComponent, HttpClientModule],
-  providers: [QuizzService, QuizzFacade],
+  providers: [QuizzService, QuizzFacade, QuizzResolver],
 })
 export class QuizzesModule {}
